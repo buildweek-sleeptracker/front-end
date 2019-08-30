@@ -75,7 +75,7 @@
 
 /* SleepEntryForm */
 .sleep-entry-form{
-  height: 100vh;
+  height: 100%;
 }
 
 .SleepEntryCard {
@@ -83,7 +83,7 @@
   display: flex;
   flex-direction: column;
   margin: 40px 0 30px;
-  height: 100vh;
+  height: 100%;
 }
 
 .titles{
@@ -97,7 +97,7 @@
 }
 
 .bed-and-sleep {
-  background-color: #191d37;
+  background-color: #262731;
   padding: 35px;
 }
 
