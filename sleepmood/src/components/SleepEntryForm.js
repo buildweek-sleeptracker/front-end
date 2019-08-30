@@ -27,7 +27,7 @@ const BG = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.6
+  // opacity: 0.6
 `
 
 const WhiteSpace = styled.div`
