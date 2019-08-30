@@ -58,9 +58,10 @@ const Home = () => {
   const [recommendedSleep, setRecommendedSleep] = useState('');
   const [monthArray, setMonthArray] = useState([]);
   const emojis = [faSadTear, faMeh, faSmile, faGrinStars];
+  const [calendarChange, setCalendarChange] = useState(false);
 
   useEffect(() => {
-    
+    console.log('use effect')
     axiosWithAuth()
     .get('/sleep/all')
     .then(res => {
@@ -86,9 +87,10 @@ const Home = () => {
     .catch(err => {
       console.log('HERE Opps, Something happened!', err)
     }) 
-  }, [])
+  }, [calendarChange])
 
   const handleChange = (date) => {
+    setCalendarChange(!calendarChange);
     setDate(date);
   }
 
@@ -193,7 +195,8 @@ const Home = () => {
       <div>
         <h2 style={{textAlign: 'center', color: '#D0C9B4', marginTop: '20px', marginBottom: '30px'}}>See additional sleep history by week.</h2>
         <CalendarWrap style={{pointerEvents: 'none',borderRadius: '8px', border: '5px solid #B07568', width: '350px', margin: '0 auto'}}>
-          <Calendar disabled
+          <Calendar 
+            //pointerEvents: 'none',
             onChange={handleChange}
             value={date}
           />
