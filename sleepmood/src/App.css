@@ -37,7 +37,7 @@
 
 .react-calendar__tile--active {
   background: #006edc;
-  background-color: red;
+  /* background-color: red; */
   /* font-size: 30px */
 }
 
