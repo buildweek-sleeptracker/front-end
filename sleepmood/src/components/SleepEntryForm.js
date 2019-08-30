@@ -62,11 +62,22 @@ const SleepEntryForm = props => {
 
   useEffect(() => {
     const url = props.match.url;  // navigate here
-    const id = props.location.pathname.replace(`${url}/update/`, "")
+    const step1 = props.location.pathname.replace(`${url}`, "")
+    console.log(step1)
+    const id = step1.replace(`/update/`, "")
+    console.log(id)
     if (id !== "") {
       return axiosGet(id);
     }
   }, [])
+
+  // useEffect(() => {
+  //   const url = props.match.url;  // navigate here
+  //   const id = props.location.pathname.replace(`${url}/update/`, "")
+  //   if (id !== "") {
+  //     return axiosGet(id);
+  //   }
+  // }, [])
 
   const applyColor = (index, value, colorArr, colorSetter, moodSetter) => {
     let newColorArr = colorArr.map((color, i) => {
