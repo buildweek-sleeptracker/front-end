@@ -22,9 +22,9 @@ const Title = styled.h1`
 const ButtonContainer = styled.div`
     text-align: center;
     width: 460px;
-
+    margin: 0px auto;
     button{
-      margin: 50px auto 30px;
+      margin-top: 60px ;
       background: #C1b89c;
         border-radius: 5px;
         border: none;
@@ -46,7 +46,7 @@ const SleepHistory = (props) => {
 
 
   return (
-    <div>
+    <div className='sleep-history'>
       <Title>Sleep History By Month</Title>
       <CalenderContainer>
         <BigCalendar clicked={toSleepEntry} />

@@ -143,9 +143,6 @@ const SleepEntryCard = ({entry, toHome}) => {
 
         <div>
         </div>
-
-      </div> {/* bed-and-sleep */}
-
       <div className="button-container">
         <Link to={`/CreateSleepEntry/update/${entry.id}`} className="card-links">
           <button type="button" className="card-edit" >Edit</button>
@@ -154,6 +151,9 @@ const SleepEntryCard = ({entry, toHome}) => {
           <button type="button" onClick={toDelete} className="card-delete" >Delete</button>
         </Link>
       </div>
+
+      </div> {/* bed-and-sleep */}
+
     </div>
 
   );

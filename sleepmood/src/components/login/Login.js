@@ -63,12 +63,14 @@ function Login(props) {
         flex-direction: column;
         height: 50px;
     .landing-cloud1 {
+        color:#B5B7c5;
         font-size: 6rem;
         position: relative;
         top: -5rem;
         left: 4rem;
     }
     .landing-cloud2 {
+        color:#B5B7c5;
         font-size: 4rem;
         position: relative;
         top: -2rem;

@@ -62,6 +62,7 @@ const NavBar = () => {
           top: 1.65rem;
           left: .125rem;
           .menuLinks {
+            background: #efe3e1;
               font-size: 1rem;
               right: -4rem;
               left: auto;
@@ -101,7 +102,6 @@ const NavBar = () => {
               <Dropdown.Item as={NavLink} to='/home'>Home</Dropdown.Item>
               <Dropdown.Item as={NavLink} to='/SleepHistory'>Sleep History</Dropdown.Item>
               <Dropdown.Item as={NavLink} to='/CreateSleepEntry'>Create Sleep Entry</Dropdown.Item>
-              <Dropdown.Item as={NavLink} to='/Settings'>Settings</Dropdown.Item>
               <Dropdown.Item as={NavLink} to='/Help'>Help</Dropdown.Item>
               <Dropdown.Item onClick={toMarketing}>Sleepmood</Dropdown.Item>
               <Dropdown.Item as={NavLink} to='/' onClick={toSignOut}>Sign out</Dropdown.Item>

@@ -9,7 +9,6 @@ import NavBar from './components/Navbar';
 import SleepHistory from './components/HistoryComponents/SleepHistory';
 import SleepEntryList from  './components/SleepEntryList'
 import Help from './components/Help';
-import Settings from './components/Settings';
 import LandingPage from './components/LandingPage';
 import Login from './components/login/Login';
 import SignUp from './components/login/SignUp';
@@ -26,7 +25,6 @@ function App() {
       <PrivateRoute path="/CreateSleepEntry" component={SleepEntryForm} />
       <PrivateRoute path='/SleepHistory' component={SleepHistory} />
       <PrivateRoute path='/Help' component={Help} />
-      <PrivateRoute path='/Settings.js' component={Settings} />
       <PrivateRoute path='/SleepEntryList' component={SleepEntryList} />
     </div>
   );

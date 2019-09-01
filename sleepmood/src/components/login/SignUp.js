@@ -83,12 +83,14 @@ const SignUp = (props) => {
     flex-direction: column;
     height: 50px;
     .landing-cloud1 {
+        color:#B5B7c5;
         font-size: 6rem;
         position: relative;
         top: -4rem;
         right: 4rem;
     }
     .landing-cloud2 {
+        color:#B5B7c5;
         font-size: 4rem;
         position: relative;
         top: -1rem;
@@ -98,7 +100,6 @@ const SignUp = (props) => {
 
   const Button = styled.button`
     color: #191d37;
-    /* background: #f3f3f3; */
     width: 100%;
     background: #b07568;
     color: #231f14;
@@ -115,7 +116,7 @@ const SignUp = (props) => {
  `
 
   return (
-    <div>
+    <div className="sign-up">
       <QuoteBlock>
         <p className="quote">"Never waste any time you can spend sleeping."</p>
         <p>-F. Knight</p>

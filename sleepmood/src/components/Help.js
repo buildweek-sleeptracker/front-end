@@ -7,6 +7,7 @@ const Help = () => {
 
   const HelpWrap = styled.div`
     color: #cfd2e8;
+    height: 100vh;
     margin: 5%;
     button {
       background: #b07568;
@@ -21,19 +22,19 @@ const Help = () => {
 
   return (
     <HelpWrap>
-      <h3>Getting started</h3>
+      <h2>Getting started</h2>
       <Link to='/signup'><button><h3>Click here to make an account</h3></button></Link>
 
-      <h3>Login</h3>
+      <h2>Login</h2>
       <Link to='/login'><button><h3>Click here to login</h3></button></Link>
 
-      <h3>Start by creating a sleep entry</h3>
+      <h2>Start by creating a sleep entry</h2>
       <Link to='/CreateSleepEntry'><button><h3>Click here to create sleep entry</h3></button></Link>
 
-      <h3>Sleep entry history</h3>
+      <h2>Sleep entry history</h2>
       <Link to='/SleepHistory'><button><h3>Click here to see your sleep history</h3></button></Link>
 
-      <h3>See your weekly graph</h3>
+      <h2>See your weekly graph</h2>
       <Link to='/SleepHistory'><button><h3>Click here to see your weekly graph</h3></button></Link>
 
     </HelpWrap>

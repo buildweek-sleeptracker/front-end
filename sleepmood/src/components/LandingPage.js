@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 const HomeContainer = styled.div`
     margin: 20px 40px;
+    
     .landing-star {
         color: #D0C9B4;
         position: relative;
@@ -20,6 +21,7 @@ const Title = styled.h1`
     color: #edebe3;
     font-family: 'Bitter', serif;
     font-size: 46px;
+    
     margin: 20px 0;
     line-height: 1.5;
     position: relative;
@@ -34,11 +36,13 @@ const IconContainer = styled.div`
     flex-direction: column;
     height: 50px;
     .landing-cloud1 {
+        color:#B5B7c5;
         font-size: 8rem;
         position: relative;
         top: -7rem;
     }
     .landing-cloud2 {
+        color:#B5B7c5;
         font-size: 6rem;
         position: relative;
         top: -2.5rem;

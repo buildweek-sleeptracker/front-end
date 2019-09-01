@@ -27,7 +27,7 @@ const BG = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.6
+  // opacity: 0.6
 `
 
 const WhiteSpace = styled.div`
@@ -37,7 +37,7 @@ const WhiteSpace = styled.div`
 
 const SleepEntryForm = props => {
 
-  const valueToEmojiIndex = [0, 0, 1, 2, 3]
+  const valueToEmojiIndex = [3, 3, 2, 1, 0]
   const [bedtimeMood, setBedtimeMood] = useState();
   const [bedtimeMoodColor, setBedtimeMoodColor] = useState(['none', 'none', 'none', 'none']);
 
@@ -62,11 +62,22 @@ const SleepEntryForm = props => {
 
   useEffect(() => {
     const url = props.match.url;  // navigate here
-    const id = props.location.pathname.replace(`${url}/update/`, "")
+    const step1 = props.location.pathname.replace(`${url}`, "")
+    console.log(step1)
+    const id = step1.replace(`/update/`, "")
+    console.log(id)
     if (id !== "") {
       return axiosGet(id);
     }
   }, [])
+
+  // useEffect(() => {
+  //   const url = props.match.url;  // navigate here
+  //   const id = props.location.pathname.replace(`${url}/update/`, "")
+  //   if (id !== "") {
+  //     return axiosGet(id);
+  //   }
+  // }, [])
 
   const applyColor = (index, value, colorArr, colorSetter, moodSetter) => {
     let newColorArr = colorArr.map((color, i) => {
@@ -148,8 +159,8 @@ const SleepEntryForm = props => {
       setTimeout(() => {
         setDisplay('hidden');
       }, 1000)
-    } else if (!/^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/.test(sleepData.sleepDate) ||
-                !/^(0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])[\/\-]\d{4}$/.test(sleepData.wakeDate)) {
+    } else if (!/^(0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])[/-]\d{4}$/.test(sleepData.sleepDate) ||
+                !/^(0?[1-9]|1[012])[/-](0?[1-9]|[12][0-9]|3[01])[/-]\d{4}$/.test(sleepData.wakeDate)) {
                   setErrorMessage("Please enter valid dates.");
                   setDisplay('visible');
                   setTimeout(() => {
@@ -188,7 +199,7 @@ const SleepEntryForm = props => {
   }
 
   return (
-    <div style={{color: '#EFE3E1'}}>
+    <div style={{color: '#EFE3E1'}} className="sleep-entry-form">
       <h3 style={{margin: '20px 0 0 47px'}}>Good evening, Charlotte.</h3>
       <h3 style={{margin: '10px 0 20px 47px'}}>{""}</h3>
       

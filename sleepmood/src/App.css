@@ -6,7 +6,7 @@
   background-repeat: no-repeat;
   background-origin: border-box;
   background-attachment: fixed;
-  background-size: auto;
+  background-size: cover;
   font-family: "Roboto", serif;
   padding: 30px 0;
   margin: 0 auto;
@@ -14,6 +14,10 @@
   width: 100%;
   text-align: left;
   letter-spacing: 1px;
+}
+
+.sign-up{
+  height: 100vh;
 }
 
 .lp-margin{
@@ -33,7 +37,7 @@
 
 .react-calendar__tile--active {
   background: #006edc;
-  background-color: red;
+  /* background-color: red; */
   /* font-size: 30px */
 }
 
@@ -58,6 +62,10 @@
   transition: stroke-dashoffset 0.5s ease 0s;
 }
 
+.sleep-history {
+  height: 100vh;
+}
+
 /* SleepEntryCard */
 .card-container {
   margin: 0 auto;
@@ -65,11 +73,17 @@
   justify-content: center;
 }
 
+/* SleepEntryForm */
+.sleep-entry-form{
+  height: 100%;
+}
+
 .SleepEntryCard {
   color: white;
   display: flex;
   flex-direction: column;
   margin: 40px 0 30px;
+  height: 100%;
 }
 
 .titles{
@@ -83,7 +97,7 @@
 }
 
 .bed-and-sleep {
-  background-color: #191d37;
+  background-color: #262731;
   padding: 35px;
 }
 
