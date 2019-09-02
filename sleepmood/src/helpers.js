@@ -1,3 +1,5 @@
+import { updateExpression } from "@babel/types";
+
 export const getRecommendedHoursOfSleep = (data) => {
 
   let storage = {};
@@ -34,8 +36,139 @@ export const getRecommendedHoursOfSleep = (data) => {
   return max[1]
 }
 
+export const sortData = (data) => {
+  const storage = {};
+
+  //sort data by year and months
+  data.forEach(date => {
+    if (storage[date.wakedate[0]]) {
+      if (storage[date.wakedate[0]][date.wakedate[1]]) {
+        storage[date.wakedate[0]][date.wakedate[1]].push(date);
+      } else {
+        storage[date.wakedate[0]][date.wakedate[1]] = [date];
+      }
+    } else {
+      storage[date.wakedate[0]] = {};
+      storage[date.wakedate[0]][date.wakedate[1]] = [date];
+    }
+  });
+
+  return storage;
+}
+
+export const sortDays = (sortedData) => {
+
+  const daysInMonth = (month, year) => { 
+    return new Date(year, month, 0).getDate(); 
+  } 
+
+  const addMissingDays = (month, monthArr, year) => {
+    let numberOfDays = daysInMonth(month, year);
+    let daysArr = [];
+    for (let i = 1; i <= numberOfDays; i++) {
+      daysArr.push(i);
+    }
+    console.log('DAYS ARR', daysArr, 'arr', monthArr)
+    let updatedMonthArr = [];
+    daysArr.forEach(item => {
+      console.log('ITEM', item)
+      if (monthArr.length > 0) {
+        if (item === monthArr[0].wakedate[2]) {
+          updatedMonthArr.push(monthArr[0]);
+          monthArr.shift();
+          console.log('IF', 'item: ', item, 'arr', updatedMonthArr)
+        } else {
+          updatedMonthArr.push({day: item, month: month, year: year});
+          console.log('ELSE', updatedMonthArr)
+        }
+      } else {
+        updatedMonthArr.push({day: item, month: month, year: year})
+      }
+    })
+    console.log('add missing days func', updatedMonthArr)
+    return updatedMonthArr;
+  }
+
+  for (let year in sortedData) {
+    for (let month in sortedData[year]) {
+      let sortedMonthArr = sortedData[year][month].sort((a, b) => a.wakedate[2] > b.wakedate[2] ? 1 : -1);
+      let updatedMonthArr = addMissingDays(month, sortedMonthArr, year);
+      console.log('updated month arr', updatedMonthArr, 'sorted arr', sortedMonthArr)
+      sortedData[year][month] = updatedMonthArr;
+    }
+  }
+  return sortedData;
+}
+
+export const getTheMostRecentWeek = (sortedData) => {
+  let recentYear = 0;
+
+  for (let year in sortedData) {
+    if (year > recentYear) {
+      recentYear = year;
+    }
+  }
+  let recentMonth = 0;
+  for (let month in sortedData[recentYear]) {
+    if (month > recentMonth) {
+
+      recentMonth = month;
+    }
+  }
+  let week = [];
+  //join two most recent months
+  let twoRecentMonths = [];
+  const daysInMonth = (month, year) => { 
+    return new Date(year, month, 0).getDate(); 
+  } 
+  if (sortedData[recentYear][recentMonth - 1]) {
+    twoRecentMonths = sortedData[recentYear][recentMonth - 1];
+    twoRecentMonths = twoRecentMonths.concat(sortedData[recentYear][recentMonth]);
+  } else {
+    if (recentMonth !== 1) {
+      let prevMonth = recentMonth - 1;
+      let days = daysInMonth(prevMonth, recentYear);
+      let mArr = [];
+      for (let i = 1; i <= days; i++) {
+        mArr.push({day: i, month: prevMonth, year: recentYear})
+      }
+      twoRecentMonths = mArr;
+      twoRecentMonths = twoRecentMonths.concat(sortedData[recentYear][recentMonth]);
+    } else {
+      let prevM = 12;
+      let d = daysInMonth(prevM, recentYear-1);
+      let mA = [];
+      for (let i = 1; i <= d; i++) {
+        mA.push({day: i, month: prevM, year: recentYear-1})
+      }
+      twoRecentMonths = mA;
+      twoRecentMonths = twoRecentMonths.concat(sortedData[recentYear][recentMonth]);
+    }
+  }
+
+  for (let i = twoRecentMonths.length - 1; i >= 0; i--) {
+    if (twoRecentMonths[i].id) {
+      if (twoRecentMonths[i-6]) {
+        if (i !== twoRecentMonths.length - 1) {
+         week = twoRecentMonths.slice(i-6, i+1);
+        } else {
+          week = twoRecentMonths.slice(i-6);
+        }
+        i = -1;
+      } else {
+        if (i !== twoRecentMonths.length - 1) {
+          week = twoRecentMonths.slice(0, i+1);
+        } else {
+          week = twoRecentMonths.slice(0);
+        }
+      }
+    }
+  }
+  return week;
+}
+
 export const getGraphData = (data, setStartDate, setEndDate, 
-                             setLongestSleep, setShortestSleep, 
+                            setLongestSleep, setShortestSleep, 
                              setAverageSleep, setAverageMood, setMonthArray) => {
 
   let hoursArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -46,36 +179,50 @@ export const getGraphData = (data, setStartDate, setEndDate,
 
   let graphData = data.map((item, index) => {
 
-    let md = [item.sleepdate[1], item.sleepdate[2]].join(' ');
-    let year = [item.sleepdate[0]].toString();
-    let time = [item.sleepdate[3], item.sleepdate[4]].join(':');
-    let start = new Date(md + ', ' + year + ' ' + time);
+    if (item.id) {
+      let md = [item.sleepdate[1], item.sleepdate[2]].join(' ');
+      let year = [item.sleepdate[0]].toString();
+      let time = [item.sleepdate[3], item.sleepdate[4]].join(':');
+      let start = new Date(md + ', ' + year + ' ' + time);
 
-    let md2 = [item.wakedate[1], item.wakedate[2]].join(' ');
-    let year2 = [item.wakedate[0]].toString();
-    let time2 = [item.wakedate[3], item.wakedate[4]].join(':');
-    let finish = new Date(md2 + ', ' + year2 + ' ' + time2);
+      let md2 = [item.wakedate[1], item.wakedate[2]].join(' ');
+      let year2 = [item.wakedate[0]].toString();
+      let time2 = [item.wakedate[3], item.wakedate[4]].join(':');
+      let finish = new Date(md2 + ', ' + year2 + ' ' + time2);
 
-    monthArr.push(finish.getMonth() + 1);
+      monthArr.push(finish.getMonth() + 1);
+    
 
-    if (index === 0) {
-      setStartDate((finish.getMonth() + 1) + '/' + finish.getDate());
+      if (index === 0) {
+        setStartDate((finish.getMonth() + 1) + '/' + finish.getDate());
+      }
+
+      if (index === data.length - 1) {
+        setEndDate((finish.getMonth() + 1) + '/' + finish.getDate());
+      }
+
+      let hours = getHours(start, finish);
+      userHours.push(hours);
+      let moodAvr = (item.sleepmood + item.wakemood + item.daymood) / 3;
+      moods.push(moodAvr);
+
+      if (!obj[hours]) {
+        obj[hours] = 0;
+      } 
+      return {x: item.wakedate[2], y: hours}
+    } else {
+      if (index === 0) {
+        setStartDate(item.month + '/' + item.day);
+      }
+
+      if (index === data.length - 1) {
+        setEndDate(item.month + '/' + item.day);
+      }
+      monthArr.push(item.month);
+      return {x: item.day, y: 0}
     }
-
-    if (index === data.length - 1) {
-      setEndDate((finish.getMonth() + 1) + '/' + finish.getDate());
-    }
-
-    let hours = getHours(start, finish);
-    userHours.push(hours);
-    let moodAvr = (item.sleepmood + item.wakemood + item.daymood) / 3;
-    moods.push(moodAvr);
-
-    if (!obj[hours]) {
-      obj[hours] = 0;
-    } 
-    return {x: item.wakedate[2], y: hours}
   })
+  console.log('DEBUGGER GRAPARR', graphData)
   //collect months to display on xAxis before the date
   setMonthArray(monthArr);
 

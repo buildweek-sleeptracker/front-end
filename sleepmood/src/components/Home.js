@@ -10,7 +10,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import { getRecommendedHoursOfSleep, getGraphData } from './../helpers.js';
+import { getRecommendedHoursOfSleep, getGraphData, sortData, sortDays, getTheMostRecentWeek } from './../helpers.js';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGrinStars, faSmile, faMeh, faSadTear } from '@fortawesome/free-solid-svg-icons';
 
@@ -66,19 +66,33 @@ const Home = () => {
     .get('/sleep/all')
     .then(res => {
       let data = res.data;
-      console.log(data)
+
+      let sorted = sortData(data);
+      //find the most recent year and most recent month
+      let dataWithSortedDays = sortDays(sorted);
+
+      //get the most recent week of data
+      let week2 = getTheMostRecentWeek(dataWithSortedDays);
+      console.log('DATA', data);
+      console.log('SORTED DATA', sorted);
+      console.log('SORTED DAYS', dataWithSortedDays)
+      console.log('WEEK2', week2)
 
       let recommendedHours = getRecommendedHoursOfSleep(data);
       setRecommendedSleep(recommendedHours);
 
       let week = data.slice(data.length - 7);
 
-      let xAxis = week.map(item => {
+      let xAxis = week2.map(item => {
+        if (item.id) {
         return item.wakedate[2];
+        } else {
+          return item.day;
+        }
       })
       setXAxisValues(xAxis);
 
-      let graphData = getGraphData(week, setStartDate, setEndDate, 
+      let graphData = getGraphData(week2, setStartDate, setEndDate, 
                                    setLongestSleep, setShortestSleep, 
                                    setAverageSleep, setAverageMood, setMonthArray);
       setGraphData(graphData);
@@ -110,7 +124,7 @@ const Home = () => {
             return  `${m.toString()} / ${v * 1}`}} style={{
             text: {stroke: 'none', fill: '#F5F4EF', fontWeight: 600}
           }}/>
-          <YAxis tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]} tickTotal={12} style={{
+          <YAxis tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]} tickTotal={12} tickFormat={v => v * 1} style={{
             text: {stroke: 'none', fill: '#F5F4EF', fontWeight: 600}
           }}/>
           <VerticalBarSeries data={graphData} style={{fill: '#4A549C', stroke: '#93875C', strokeWidth: 2}} opacity={0.8}/>
