@@ -1,4 +1,4 @@
-# Sleep Mood application - Fron End repository
+# Sleep Mood application - Front End repository
 
 The code for the front-end application of Sleepmood, a sleep tracking demo project.
 
